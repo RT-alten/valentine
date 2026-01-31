@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>QUEST: VALENTINE? ❤️</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --pixel-pink: #ff85a2;
+      --pixel-red: #ff0040;
+      --pixel-black: #212121;
+      --pixel-white: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Press Start 2P', cursive;
+      -webkit-tap-highlight-color: transparent;
+      image-rendering: pixelated; /* Makes GIFs look crisp and retro */
+    }
+
+    html {
+      scroll-snap-type: y mandatory;
+    }
+
+    body {
+      background-color: #000;
+      /* Pixelated Grid Background */
+      background-image: 
+        linear-gradient(rgba(255, 133, 162, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 133, 162, 0.1) 1px, transparent 1px);
+      background-size: 20px 20px;
+      color: var(--pixel-white);
+      overflow-x: hidden;
+    }
+
+    section {
+      height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      text-align: center;
+    }
+
+    /* 8-Bit Container */
+    .pixel-box {
+      background: var(--pixel-black);
+      border: 4px solid var(--pixel-white);
+      /* Retro Double Border Effect */
+      outline: 4px solid var(--pixel-pink);
+      outline-offset: -12px;
+      padding: 40px 20px;
+      width: 100%;
+      max-width: 360px;
+      position: relative;
+      box-shadow: 10px 10px 0px rgba(255, 133, 162, 0.3);
+    }
+
+    h1 {
+      font-size: 1.2rem;
+      line-height: 1.5;
+      margin-bottom: 20px;
+      color: var(--pixel-pink);
+      text-transform: uppercase;
+    }
+
+    p {
+      font-size: 0.7rem;
+      line-height: 1.8;
+      margin: 15px 0;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: 0.4s;
+    }
+
+    p.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .kitty-gif {
+      width: 100px;
+      margin-bottom: 20px;
+      border: 2px solid var(--pixel-white);
+      background: #fff;
+    }
+
+    /* Pixel Buttons */
+    .pixel-btn {
+      margin-top: 25px;
+      padding: 15px 10px;
+      background: var(--pixel-white);
+      border: none;
+      box-shadow: 
+        -4px 0 0 0 #000,
+        4px 0 0 0 #000,
+        0 -4px 0 0 #000,
+        0 4px 0 0 #000;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.6rem;
+      cursor: pointer;
+      color: #000;
+      transition: background 0.2s;
+    }
+
+    .pixel-btn:hover { background: var(--pixel-pink); }
+    .pixel-btn:active { transform: translateY(4px); }
+
+    .yes-btn { background: #00ff41; color: #000; margin-right: 10px; }
+    .no-btn { background: #ff4747; color: #fff; position: relative; }
+
+    /* Floating Icons */
+    .heart-icon {
+      position: fixed;
+      z-index: -1;
+      font-size: 20px;
+      animation: pixelFloat 3s infinite steps(5); /* Steps make it look laggy/retro */
+    }
+
+    @keyframes pixelFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+
+    .dialog-arrow {
+      margin-top: 10px;
+      animation: blink 0.8s infinite;
+    }
+
+    @keyframes blink { 50% { opacity: 0; } }
+
+    #final { display: none; background: #212121; }
+  </style>
+</head>
+<body>
+
+  <section>
+    <div class="pixel-box">
+      <img src="https://media1.tenor.com/m/ERp8uuFUMjkAAAAC/waving-hello-kitty.gif" class="kitty-gif">
+      <h1>A KUCHUPUCHU APPEARED!</h1>
+      <p class="reveal">Welcome to the Quest...</p>
+      <button class="pixel-btn" onclick="scrollNext()">NEXT [A]</button>
+      <div class="dialog-arrow">▼</div>
+    </div>
+  </section>
+
+  <section>
+    <div class="pixel-box">
+      <p class="reveal">Stats Check:</p>
+      <p class="reveal">Goofiness:100%</p>
+      <p class="reveal">Bully:100%</p>
+      <p class="reveal">Lovely:INFINITE 💗</p>
+      <button class="pixel-btn" onclick="scrollNext()">CONTINUE</button>
+    </div>
+  </section>
+
+  <section>
+    <div class="pixel-box">
+      <img src="https://media.tenor.com/-Au5hJr6lcsAAAAi/sparkle-pixel.gif" class="kitty-gif">
+      <h1>QUEST: VALENTINE?</h1>
+      <p class="show" style="color: var(--pixel-pink);">Reward: Someone to always bully 😝</p>
+      <div style="display:flex; justify-content:center; flex-wrap: wrap;">
+        <button class="pixel-btn yes-btn" onclick="yesClicked()">YES</button>
+        <button class="pixel-btn no-btn" id="noBtn">NO</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="final">
+    <div class="pixel-box" style="border-color: #00ff41;">
+      <h1 style="color: #00ff41;">SUCCESS!</h1>
+      <img src="https://media.tenor.com/kT6gMVRA-cwAAAAi/sanrio-hello-kitty.gif" style="width: 130px; margin: 10px 0;">
+      <p class="show">New Achievement Unlocked:</p>
+      <p class="show" style="color: gold;">"A lover forever &lt;3"</p>
+    </div>
+  </section>
+
+  <script>
+    function scrollNext() {
+      const current = Math.round(window.scrollY / window.innerHeight);
+      window.scrollTo({ top: window.innerHeight * (current + 1), behavior: 'smooth' });
+    }
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('show');
+      });
+    }, { threshold: 0.5 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // No Button Logic: Pixelated Teleport
+    const noBtn = document.getElementById('noBtn');
+    const moveNo = (e) => {
+      e.preventDefault();
+      const x = Math.random() * (window.innerWidth - 100);
+      const y = Math.random() * (window.innerHeight - 50);
+      noBtn.style.position = 'fixed';
+      noBtn.style.left = x + 'px';
+      noBtn.style.top = y + 'px';
+      noBtn.innerText = "MISS!";
+    };
+
+    noBtn.addEventListener('touchstart', moveNo);
+    noBtn.addEventListener('mouseover', moveNo);
+
+    function yesClicked() {
+      document.getElementById('final').style.display = 'flex';
+      document.getElementById('final').scrollIntoView({ behavior: 'smooth' });
+      
+      // Pixelated Confetti
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.6 },
+        shapes: ['square'], // Squares look more pixelated!
+        colors: ['#ff85a2', '#ff0040', '#ffffff']
+      });
+    }
+  </script>
+</body>
+</html>
